@@ -9,9 +9,20 @@ function attchementTicket(student) {
 const router = new Router();
 router.get('/', (req, res) => res.status(200).json(Student.get()));
 router.get('/:studentId', (req, res) => res.status(200).json(Student.getById(req.params.studentId)));
-router.delete('/:studentId', (req, res) => res.status(200).json(Student.delete(req.params.studentId)));
+router.delete('/:studentId', (req, res) => 
+  {
+    try {
+      Student.delete(req.params.studentId);
+      res.status(204).end();
+    } catch (err) {
+      console.error(err);
+      res.status(500).json(err);
+    }
+  }
+);
 router.put('/:studentId', (req, res) => res.status(200).json(Student.update(req.params.studentId, req.body)));
 router.post('/', (req, res) => {
+  
   try {
     const student = Student.create(req.body);
     res.status(201).json(attchementTicket(student));
